@@ -1,3 +1,5 @@
+"use client";
+
 import Book from "./components/Book";
 import Navbar from "./components/Navbar";
 
