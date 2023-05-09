@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 
 const Book = () => {
+
+    // Set Booking Data
     const [bookingData, setBookingData] = useState({
         wid: "",
         uid: "",
         date: "",
     });
 
+    // Set Booking Reply Message
     const [bookReply, setBookReply] = useState("");
 
+    // URL
     const BOOK_WORKSHOP_URL = `http://localhost:8080/book-with-workshopid?wid=${bookingData.wid}&uid=${bookingData.uid}&bdate=${bookingData.date}`;
-    const USERS_BASE_URL = "http://localhost:8080/getUsers";
 
 
-    console.log(BOOK_WORKSHOP_URL);
+
+    // console.log(BOOK_WORKSHOP_URL);
 
 
     // Handle Change of Input Field Function
@@ -21,6 +25,7 @@ const Book = () => {
         const value = e.target.value;
         setBookingData({...bookingData, [e.target.name]: value});
     }
+
 
     // Make the post request to book a slot
     const bookSlot = async (e) => {
@@ -33,7 +38,7 @@ const Book = () => {
             },
         }).then(response => response.text())
         .then(text => {
-            console.log(text);
+            // console.log(text);
             setBookReply(text);
             return text;
         })
@@ -41,9 +46,10 @@ const Book = () => {
             console.error(error);
         })
 
-
-        // reset(e);
+        // Reset the Input Fields
+        reset(e);
     }
+
 
     // Reset the field values
     const reset = (e) => {
@@ -53,7 +59,6 @@ const Book = () => {
             uid: "",
             date: "",
         });
-        setBookReply("");
     }
 
 
