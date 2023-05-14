@@ -21,8 +21,7 @@ const ListBox = (props) => {
                 console.error(error);
             })
 
-            console.log(menuItems)
-    }, []);
+    }, [props.url]);
 
     return (
 
