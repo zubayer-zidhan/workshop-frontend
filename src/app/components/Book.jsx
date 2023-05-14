@@ -1,6 +1,22 @@
 import React, { useState } from "react";
+import { Snackbar, Alert} from '@mui/material';
+
+import { styled } from "@mui/material/styles";
+
+const StyledSnackbar = styled((props) => <Snackbar {...props} />)(
+  ({ theme }) => ({
+    "& .MuiSnackbar-root": {
+      top: theme.spacing(15),
+    },
+  })
+);
+
 
 const Book = () => {
+
+    // Constants
+    const SUCCESS = "SUCCESS";
+    const NO_SLOTS = "No Slots Available at the required workshop on the given date";
 
     // Set Booking Data
     const [bookingData, setBookingData] = useState({
@@ -9,11 +25,27 @@ const Book = () => {
         date: "",
     });
 
+
+    // Toogle Snackbar state
+    const [alertType, setAlertType] = useState({
+        open: false,
+        type: "",
+    });
+
+
+    // Handle Closing of Alert
+    const handleClose = () => {
+        setAlertType({...alertType, open: false});
+    }
+
+
+
+
     // Set Booking Reply Message
     const [bookReply, setBookReply] = useState("");
 
     // URL
-    const BOOK_WORKSHOP_URL = `http://localhost:8080/book-with-workshopid?wid=${bookingData.wid}&uid=${bookingData.uid}&bdate=${bookingData.date}`;
+    const BOOK_WORKSHOP_URL = "http://localhost:8080/book-with-workshopid";
 
 
 
@@ -36,10 +68,18 @@ const Book = () => {
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify(bookingData),
         }).then(response => response.text())
         .then(text => {
             // console.log(text);
             setBookReply(text);
+            if(text === SUCCESS) {
+                setAlertType({type: "success", open: true});
+            } else if(text === NO_SLOTS) {
+                setAlertType({type: "info", open: true});
+            } else {
+                setAlertType({type: "error", open: true}); 
+            }
             return text;
         })
         .catch(error => {
@@ -107,7 +147,16 @@ const Book = () => {
                     Reset
                 </button>
             </div>
-            <h1 className="text-5xl mt-12">{bookReply}</h1>
+            <StyledSnackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={alertType.open}
+                onClose={handleClose}
+                autoHideDuration={3000}
+            >
+                <Alert severity={alertType.type} onClose={handleClose}>
+                    {bookReply}
+                </Alert>
+            </StyledSnackbar>
         </div>
     );
 };
