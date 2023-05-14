@@ -11,9 +11,13 @@ export default function Home() {
             <Navbar />
             <main className="">
                 <Book />
-                <Dropdown />
-                {/* <ListBox /> */}
+                {/* <Dropdown /> */}
+                <div className="flex space-x-10">
+                    <ListBox url="http://localhost:8080/getCities" placeholder="Select City"/>
+                    <ListBox url="http://localhost:8080/getWorkshops" placeholder="Select Workshop" />
+                </div>
             </main>
+            
         </div>
     );
 }
