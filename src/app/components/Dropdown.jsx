@@ -63,7 +63,7 @@ const Dropdown = () => {
                         'block px-4 py-2 text-sm'
                       )}
                     >
-                      {item.label}
+                      {item.name}
                     </option>
                   )}
 
