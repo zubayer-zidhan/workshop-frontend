@@ -29,7 +29,7 @@ const Book = () => {
     // Toogle Snackbar state
     const [alertType, setAlertType] = useState({
         open: false,
-        type: "",
+        type: "info",
     });
 
 
