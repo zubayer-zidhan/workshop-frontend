@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: "http://localhost:8080/getWorkshopsByCity?city_id=0",
+    value: "http://localhost:8080/getWorkshops",
 }
 
 
