@@ -13,9 +13,7 @@ export default function Home() {
             <main className="">
                 <Book />
                 <ListBoxes />
-                {/* <p>{"a" + 1}</p> */}
             </main>
-
         </Provider>
     );
 }

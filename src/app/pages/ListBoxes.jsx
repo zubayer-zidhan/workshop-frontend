@@ -1,6 +1,6 @@
 import React from 'react';
 import ListBox from '../components/ListBox';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const ListBoxes = () => {

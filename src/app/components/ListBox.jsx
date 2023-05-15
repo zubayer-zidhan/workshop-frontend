@@ -1,27 +1,25 @@
 import { Fragment, useState , useEffect } from 'react'
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateWorkshopURL } from '../../slices/getWorkshopsSlice';
 
 
 const ListBox = (props) => {
     const [menuItems, setMenuItems] = useState([]);
     const [selected, setSelected] = useState(0);
-    const [valueListBox, setValueListBox] = useState();
 
-    const getWorkshopsUrl = useSelector((state) => state.getWorkshops.value);
     const dispatchWorkshop = useDispatch();
 
 
 
     if(props.name === "cities") {
         useEffect(() => {
-            setValueListBox(selected);
-            console.log(selected);
-            console.log(selected.id);
-
-            dispatchWorkshop(updateWorkshopURL(selected.id));
+            // console.log(selected);
+            // console.log(selected.id);
+            if(selected != 0) {
+                dispatchWorkshop(updateWorkshopURL(selected.id));
+            }
         }, [selected])
     }
 
