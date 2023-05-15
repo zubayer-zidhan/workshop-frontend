@@ -1,12 +1,31 @@
 import { Fragment, useState , useEffect } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { Listbox, Transition } from '@headlessui/react';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateWorkshopURL } from '../../slices/getWorkshopsSlice';
 
 
 const ListBox = (props) => {
     const [menuItems, setMenuItems] = useState([]);
     const [selected, setSelected] = useState(0);
+    const [valueListBox, setValueListBox] = useState();
 
+    const getWorkshopsUrl = useSelector((state) => state.getWorkshops.value);
+    const dispatchWorkshop = useDispatch();
+
+
+
+    if(props.name === "cities") {
+        useEffect(() => {
+            setValueListBox(selected);
+            console.log(selected);
+            console.log(selected.id);
+
+            dispatchWorkshop(updateWorkshopURL(selected.id));
+        }, [selected])
+    }
+
+    // useEffect for fetching data at start
     useEffect(() => {
         // Fetch data from API endpoint
         fetch(props.url, {
@@ -22,6 +41,9 @@ const ListBox = (props) => {
             })
 
     }, [props.url]);
+
+
+    
 
     return (
 
@@ -43,34 +65,34 @@ const ListBox = (props) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {menuItems.map((items) => (
-                  <Listbox.Option
-                    key={items.name}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                      }`
-                    }
-                    value={items}
-                  >
-                    {({ selected }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? 'font-medium' : 'font-normal'
-                          }`}
-                        >
-                          {items.name}
-                        </span>
-                        {selected ? (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Listbox.Option>
+                    <Listbox.Option
+                        key={items.name}
+                        className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                            active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                        }`
+                        }
+                        value={items}
+                    >
+                        {({ selected }) => (
+                        <>
+                            <span
+                                className={`block truncate ${
+                                    selected ? 'font-medium' : 'font-normal'
+                                }`}
+                            >
+                                {items.name}
+                            </span>
+                            {selected ? (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                </span>
+                            ) : null}
+                        </>
+                        )}
+                    </Listbox.Option>
                 ))}
               </Listbox.Options>
             </Transition>
