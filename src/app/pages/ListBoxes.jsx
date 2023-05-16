@@ -10,6 +10,7 @@ const ListBoxes = () => {
 
     return (
         <div className="flex space-x-10">
+
             {
                 citySelected ? 
                     <ListBox url="http://localhost:8080/getCities" placeholder="Select City" name="cities" /> 
@@ -18,8 +19,7 @@ const ListBoxes = () => {
                         <ListBox url={getWorkshopsUrl} placeholder="Select Workshop" name="workshops" />
                     </> 
             }
-            {/* <ListBox url="http://localhost:8080/getCities" placeholder="Select City" name="cities" />
-            <ListBox url={getWorkshopsUrl} placeholder="Select Workshop" name="workshops" /> */}
+            
         </div>
     );
 }
