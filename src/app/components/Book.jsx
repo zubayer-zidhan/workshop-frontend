@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Snackbar, Alert} from '@mui/material';
-
 import { styled } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+
+
 
 const StyledSnackbar = styled((props) => <Snackbar {...props} />)(
   ({ theme }) => ({
@@ -17,6 +19,9 @@ const Book = () => {
     // Constants
     const SUCCESS = "SUCCESS";
     const NO_SLOTS = "No Slots Available at the required workshop on the given date";
+
+    const userId = useSelector((state) => state.userId.value);
+
 
     // Set Booking Data
     const [bookingData, setBookingData] = useState({
@@ -104,27 +109,6 @@ const Book = () => {
 
     return (
         <div>
-            <h1 className="text-8xl">Book</h1>
-            <div className="mt-5">
-                <label className="mr-5 ml-3">User ID</label>
-                <input 
-                    type="text" 
-                    name="uid" 
-                    value={bookingData.uid}
-                    onChange={(e) => handleChange(e)}
-                    width={12} 
-                />
-            </div>
-            <div className="mt-5">
-                <label className="mr-5 ml-3">Workshop ID</label>
-                <input 
-                    type="text" 
-                    name="wid"
-                    value={bookingData.wid} 
-                    onChange={(e) => handleChange(e)}
-                    width={12} 
-                />
-            </div>
             <div className="mt-5">
                 <label className="mr-5 ml-3">Date</label>
                 <input 

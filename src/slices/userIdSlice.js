@@ -10,7 +10,7 @@ export const userIdSlice = createSlice({
     initialState,
     reducers: {
         updateUserId: (state, action) => {
-            state.value = action.payload;
+            state.value = parseInt(action.payload);
         }
     },
 });

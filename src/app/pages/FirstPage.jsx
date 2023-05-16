@@ -1,9 +1,8 @@
 import React from 'react';
 import Login from "./Login";
 import Navbar from "../components/Navbar";
-import Book from "../components/Book";
-import ListBoxes from './ListBoxes';
 import { useSelector } from "react-redux";
+import SecondPage from './SecondPage';
 
 
 const FirstPage = () => {
@@ -15,7 +14,7 @@ const FirstPage = () => {
             <Navbar />
             <main className="">
                 {
-                    isLogged ? <><Book /><ListBoxes /></> : <Login />
+                    isLogged ? <SecondPage /> : <Login />
                 }
                 {/* <Book />
                 <ListBoxes />

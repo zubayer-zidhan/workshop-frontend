@@ -10,7 +10,7 @@ import { LoginOutlined } from '@mui/icons-material';
 import { useDispatch } from "react-redux";
 import { Snackbar, Alert} from '@mui/material';
 import { styled } from "@mui/material/styles";
-// import { updateUserId } from '../../slices/userIdSlice';
+import { updateUserId } from '../../slices/userIdSlice';
 import { updateLoggedIn } from '../../slices/isLoggedInSlice';
 
 
@@ -89,6 +89,7 @@ const login = () => {
             } else {
                 setUserReply("Logged in successfully")
                 setAlertType({type: "success", open: true});
+                dispatch(updateUserId(text));
                 dispatch(updateLoggedIn(1));
             }
         })
