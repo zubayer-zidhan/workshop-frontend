@@ -1,22 +1,31 @@
-import * as React from 'react';
+import React from 'react';
+import { useState } from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { useDispatch } from 'react-redux';
+import { updateCitySelected } from '../../slices/isCitySelectedSlice';
+
+
 
 export default function RadioButton() {
-    const [alignment, setAlignment] = React.useState('city');
-    const [isComponentEnabled, setIsComponentEnabled] = React.useState(false);
 
+    const dispatch = useDispatch();
+
+    const [alignment, setAlignment] = useState('city');
+
+    
     const handleAlignment = (event, newAlignment) => {
         if (newAlignment !== null) {
-          setAlignment(newAlignment);
-          setIsComponentEnabled(newAlignment);
+            setAlignment(newAlignment);
+
+            if(newAlignment === "city") {
+                dispatch(updateCitySelected(1));      
+            } else {
+                dispatch(updateCitySelected(0));
+            }
         }
       };
       
-      console.log(alignment);
-      console.log(isComponentEnabled);
-    
-    
 
     return (
         <div className='mt-3 '>

@@ -12,7 +12,7 @@ const FirstPage = () => {
     return (
         <>
             <Navbar />
-            <main className="">
+            <main className="h-screen">
                 {
                     isLogged ? <SecondPage /> : <Login />
                 }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Snackbar, Alert} from '@mui/material';
 import { styled } from "@mui/material/styles";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateLoggedIn } from "../../slices/isLoggedInSlice";
 
 
 
@@ -21,6 +22,8 @@ const Book = () => {
     const NO_SLOTS = "No Slots Available at the required workshop on the given date";
 
     const userId = useSelector((state) => state.userId.value);
+
+    const dispatch = useDispatch();
 
 
     // Set Booking Data
@@ -107,8 +110,18 @@ const Book = () => {
     }
 
 
+    // Handle the logout button
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(updateLoggedIn(0));
+    }
+
+
     return (
         <div>
+            <div className="mt-5">
+                <h3>User Id is: {userId}</h3>
+            </div>
             <div className="mt-5">
                 <label className="mr-5 ml-3">Date</label>
                 <input 
@@ -126,9 +139,15 @@ const Book = () => {
                 </button>
                 <button
                     onClick={reset}
-                    className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded-md text-lg"
+                    className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded-md text-lg mr-2"
                 >
                     Reset
+                </button>
+                <button
+                    onClick={handleLogout}
+                    className="bg-teal-500 hover:bg-teal-700 text-white px-3 py-1 rounded-md text-lg"
+                >
+                    Logout
                 </button>
             </div>
             <StyledSnackbar

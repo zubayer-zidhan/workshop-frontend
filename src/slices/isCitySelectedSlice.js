@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value: false,
+    value: true,
 }
 
 
-export const isLoggedInSlice = createSlice({
-    name: "isLoggedIn",
+export const isCitySelectedSlice = createSlice({
+    name: "isCitySelected",
     initialState,
     reducers: {
-        updateLoggedIn: (state, action) => {
+        updateCitySelected: (state, action) => {
             if(action.payload === 1) {
                 state.value = true;
             } else {
@@ -21,6 +21,6 @@ export const isLoggedInSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { updateLoggedIn } = isLoggedInSlice.actions;
+export const { updateCitySelected } = isCitySelectedSlice.actions;
 
-export default isLoggedInSlice.reducer;
+export default isCitySelectedSlice.reducer;
