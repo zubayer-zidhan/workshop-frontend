@@ -9,7 +9,7 @@ const ListBox = (props) => {
     const [menuItems, setMenuItems] = useState([]);
     const [selected, setSelected] = useState(0);
 
-    const dispatchWorkshop = useDispatch();
+    const dispatch = useDispatch();
 
 
 
@@ -18,7 +18,7 @@ const ListBox = (props) => {
             // console.log(selected);
             // console.log(selected.id);
             if(selected != 0) {
-                dispatchWorkshop(updateWorkshopURL(selected.id));
+                dispatch(updateWorkshopURL(selected.id));
             }
         }, [selected])
     }
