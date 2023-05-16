@@ -1,9 +1,10 @@
 "use client";
 
-import Book from "./components/Book";
+// import Book from "./components/Book";
 import Navbar from "./components/Navbar";
-import Radiobutton from "./components/Radiobutton";
-import ListBoxes from "./pages/ListBoxes";
+// import Radiobutton from "./components/Radiobutton";
+// import ListBoxes from "./pages/ListBoxes";
+import Login from "./pages/Login";
 import { store } from "./store";
 import { Provider } from "react-redux";
 
@@ -12,9 +13,11 @@ export default function Home() {
         <Provider store={store}>
             <Navbar />
             <main className="">
-                <Book />
+                {/* <Book />
                 <ListBoxes />
-                <Radiobutton />
+                <Radiobutton /> */}
+                <Login />
+
             </main>
         </Provider>
     );
