@@ -10,7 +10,11 @@ export const isLoggedInSlice = createSlice({
     initialState,
     reducers: {
         updateLoggedIn: (state, action) => {
-            state.value = action.payload;
+            if(action.payload == 1) {
+                state.value = true;
+            } else {
+                state.value = false;
+            };
         }
     },
 });

@@ -1,12 +1,28 @@
+"use client";
+
 import React from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Typography,Button } from '@mui/material';
 import { ThemeProvider,createTheme } from '@mui/material/styles';
-// import LoginIcon from '@mui/icons-material/Login';
 import { LoginOutlined } from '@mui/icons-material';
 import { useDispatch } from "react-redux";
+import { Snackbar, Alert} from '@mui/material';
+import { styled } from "@mui/material/styles";
+// import { updateUserId } from '../../slices/userIdSlice';
+import { updateLoggedIn } from '../../slices/isLoggedInSlice';
+
+
+// Styled Snack for alert messages
+const StyledSnackbar = styled((props) => <Snackbar {...props} />)(
+  ({ theme }) => ({
+    "& .MuiSnackbar-root": {
+      top: theme.spacing(15),
+    },
+  })
+);
+
 
 
 
@@ -14,13 +30,31 @@ import { useDispatch } from "react-redux";
 const login = () => {
     // Dispatcher function
     const dispatch = useDispatch();
-    
 
     // User Data for checking if user exists
     const [userData, setUserData] = useState({
         name : "",
         email : "",
     });
+
+
+    // Set User Reply Message
+    const [userReply, setUserReply] = useState("");
+
+    // ************* SnackBar ******************
+    // Toogle Snackbar state
+    const [alertType, setAlertType] = useState({
+        open: false,
+        type: "info",
+    });
+
+
+    // Handle Closing of Alert
+    const handleSnackbarClose = () => {
+        setAlertType({...alertType, open: false});
+    }
+    // --------------- End SnackBar -----------------
+
 
 
     // Base findUserId URL
@@ -36,7 +70,7 @@ const login = () => {
 
     const checkUserData = async (e) =>{
         e.preventDefault();
-        console.log(userData);
+        // console.log(userData);
 
         await fetch(BASE_USER_URL, {
             method: "post",
@@ -47,13 +81,19 @@ const login = () => {
         }).then(response => response.text())
         .then(text => {
             console.log(text);
+            
+            // If user id is returned(user exists)
             if(text === "-404") {
-                console.log("Invalid name or email.");
+                setUserReply("Invalid name or email.")
+                setAlertType({type: "error", open: true});
             } else {
-                console.log(`User exists ${text}`);
+                setUserReply("Logged in successfully")
+                setAlertType({type: "success", open: true});
+                dispatch(updateLoggedIn(1));
             }
         })
     }
+
     
     //To change the properties of button
     const theme = createTheme({
@@ -112,7 +152,16 @@ const login = () => {
                 </ThemeProvider>   
             </Box >
         </form>
-        
+        <StyledSnackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={alertType.open}
+                onClose={handleSnackbarClose}
+                autoHideDuration={3000}
+            >
+                <Alert severity={alertType.type} onClose={handleSnackbarClose}>
+                    {userReply}
+                </Alert>
+        </StyledSnackbar>
         
     </div>
 

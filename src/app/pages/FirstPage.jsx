@@ -1,21 +1,26 @@
 import React from 'react';
 import Login from "./Login";
 import Navbar from "../components/Navbar";
+import Book from "../components/Book";
+import ListBoxes from './ListBoxes';
 import { useSelector } from "react-redux";
 
 
 const FirstPage = () => {
 
     const isLogged = useSelector((state) => state.isLoggedIn.value);
-    console.log(isLogged);
+    // console.log(isLogged);
     return (
         <>
             <Navbar />
             <main className="">
+                {
+                    isLogged ? <><Book /><ListBoxes /></> : <Login />
+                }
                 {/* <Book />
                 <ListBoxes />
                 <Radiobutton /> */}
-                <Login />
+                {/* <Login /> */}
 
             </main>
         </>
