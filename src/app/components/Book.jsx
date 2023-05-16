@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Snackbar, Alert} from '@mui/material';
-
 import { styled } from "@mui/material/styles";
+import { useSelector, useDispatch } from "react-redux";
+import { updateLoggedIn } from "../../slices/isLoggedInSlice";
+
+
 
 const StyledSnackbar = styled((props) => <Snackbar {...props} />)(
   ({ theme }) => ({
@@ -17,6 +20,11 @@ const Book = () => {
     // Constants
     const SUCCESS = "SUCCESS";
     const NO_SLOTS = "No Slots Available at the required workshop on the given date";
+
+    const userId = useSelector((state) => state.userId.value);
+
+    const dispatch = useDispatch();
+
 
     // Set Booking Data
     const [bookingData, setBookingData] = useState({
@@ -102,28 +110,17 @@ const Book = () => {
     }
 
 
+    // Handle the logout button
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(updateLoggedIn(0));
+    }
+
+
     return (
         <div>
-            <h1 className="text-8xl">Book</h1>
             <div className="mt-5">
-                <label className="mr-5 ml-3">User ID</label>
-                <input 
-                    type="text" 
-                    name="uid" 
-                    value={bookingData.uid}
-                    onChange={(e) => handleChange(e)}
-                    width={12} 
-                />
-            </div>
-            <div className="mt-5">
-                <label className="mr-5 ml-3">Workshop ID</label>
-                <input 
-                    type="text" 
-                    name="wid"
-                    value={bookingData.wid} 
-                    onChange={(e) => handleChange(e)}
-                    width={12} 
-                />
+                <h3>User Id is: {userId}</h3>
             </div>
             <div className="mt-5">
                 <label className="mr-5 ml-3">Date</label>
@@ -142,9 +139,15 @@ const Book = () => {
                 </button>
                 <button
                     onClick={reset}
-                    className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded-md text-lg"
+                    className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded-md text-lg mr-2"
                 >
                     Reset
+                </button>
+                <button
+                    onClick={handleLogout}
+                    className="bg-teal-500 hover:bg-teal-700 text-white px-3 py-1 rounded-md text-lg"
+                >
+                    Logout
                 </button>
             </div>
             <StyledSnackbar
