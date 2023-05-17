@@ -10,7 +10,7 @@ export const getWorkshopsSlice = createSlice({
     initialState,
     reducers: {
         updateWorkshopURL: (state, action) => {
-            if(action.payload != undefined) {
+            if((action.payload != undefined) && (parseInt(action.payload) > 0) ) {
                 state.value = "http://localhost:8080/getWorkshopsByCity?city_id=" + action.payload;
             } else {
                 state.value = "http://localhost:8080/getWorkshops"; 
