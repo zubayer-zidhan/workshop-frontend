@@ -158,9 +158,6 @@ const Book = () => {
     return (
         <div>
             <div className="mt-5">
-                <h3>User Id is: {userId}</h3>
-            </div>
-            <div className="mt-5">
                 <label className="mr-5 ml-3">Date</label>
                 <input 
                     type="date" 
