@@ -4,8 +4,9 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useDispatch } from 'react-redux';
 import { updateCitySelected } from '../../slices/isCitySelectedSlice';
-import { updateWorkshopURL } from '../../slices/getWorkshopsSlice';
-
+import { updateBookingDataCity } from '../../slices/bookingDataCitySlice';
+import { updateBookingDataWorkshop } from '../../slices/bookingDataWorkshopSlice';
+import { updateReload } from '../../slices/reloadSlice';
 
 
 export default function RadioButton() {
@@ -19,9 +20,16 @@ export default function RadioButton() {
         if (newAlignment !== null) {
             setAlignment(newAlignment);
 
+            dispatch(updateBookingDataCity({field: "date", value: ""}));
+            dispatch(updateBookingDataWorkshop({field: "date", value: ""}));
+            dispatch(updateBookingDataWorkshop({field: "wid", value: ""}));
+
+            dispatch(updateReload());
+
             if(newAlignment === "city") {
                 dispatch(updateCitySelected(1));
             } else {
+                
                 dispatch(updateCitySelected(0));
             }
         }

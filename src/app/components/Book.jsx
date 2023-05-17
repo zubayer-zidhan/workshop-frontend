@@ -3,6 +3,8 @@ import { Snackbar, Alert} from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { updateLoggedIn } from "../../slices/isLoggedInSlice";
+import { updateBookingDataCity } from "@/slices/bookingDataCitySlice";
+import { updateBookingDataWorkshop } from "@/slices/bookingDataWorkshopSlice";
 
 
 
@@ -23,15 +25,19 @@ const Book = () => {
 
     const userId = useSelector((state) => state.userId.value);
 
+    const citySelected = useSelector((state) => state.isCitySelected.value);
+    const bookingDataCity = useSelector((state) => state.bookingDataCity.data);
+    const bookingDataWorkshop = useSelector((state) => state.bookingDataWorkshop.data);
+
+    // const checkReload = useSelector((state) => state.reload.value);
+
+    console.log(bookingDataCity);
+    console.log(bookingDataWorkshop);
+    // console.log(`Reload: ${checkReload}`);
+    
+
     const dispatch = useDispatch();
 
-
-    // Set Booking Data
-    const [bookingData, setBookingData] = useState({
-        wid: "",
-        uid: "",
-        date: "",
-    });
 
 
     // Toogle Snackbar state
@@ -53,17 +59,20 @@ const Book = () => {
     const [bookReply, setBookReply] = useState("");
 
     // URL
-    const BOOK_WORKSHOP_URL = "http://localhost:8080/book-with-workshopid";
+    const BOOK_USING_CITY_URL = "http://localhost:8080/book-with-cityid";
+    const BOOK_USING_WORKSHOP_URL = "http://localhost:8080/book-with-workshopid";
 
 
-
-    // console.log(BOOK_WORKSHOP_URL);
 
 
     // Handle Change of Input Field Function
     const handleChange = (e) => {
-        const value = e.target.value;
-        setBookingData({...bookingData, [e.target.name]: value});
+        const val = e.target.value;
+        if(citySelected) {
+            dispatch(updateBookingDataCity({field: "date", value: val}));
+        } else {
+            dispatch(updateBookingDataWorkshop({field: "date", value: val}));
+        }
     }
 
 
@@ -71,48 +80,77 @@ const Book = () => {
     const bookSlot = async (e) => {
         e.preventDefault();
 
-        await fetch(BOOK_WORKSHOP_URL, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(bookingData),
-        }).then(response => response.text())
-        .then(text => {
-            // console.log(text);
-            setBookReply(text);
-            if(text === SUCCESS) {
-                setAlertType({type: "success", open: true});
-            } else if(text === NO_SLOTS) {
-                setAlertType({type: "info", open: true});
-            } else {
-                setAlertType({type: "error", open: true}); 
-            }
-            return text;
-        })
-        .catch(error => {
-            console.error(error);
-        })
-
-        // Reset the Input Fields
-        reset(e);
+        if(citySelected) {
+            await fetch(BOOK_USING_CITY_URL, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(bookingDataCity),
+            }).then(response => response.text())
+            .then(text => {
+                // console.log(text);
+                setBookReply(text);
+                if(text === SUCCESS) {
+                    setAlertType({type: "success", open: true});
+                } else if(text === NO_SLOTS) {
+                    setAlertType({type: "info", open: true});
+                } else {
+                    setAlertType({type: "error", open: true}); 
+                }
+                return text;
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    
+            // Reset the Input Fields
+            reset(e);
+        } else {
+            await fetch(BOOK_USING_WORKSHOP_URL, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(bookingDataWorkshop),
+            }).then(response => response.text())
+            .then(text => {
+                // console.log(text);
+                setBookReply(text);
+                if(text === SUCCESS) {
+                    setAlertType({type: "success", open: true});
+                } else if(text === NO_SLOTS) {
+                    setAlertType({type: "info", open: true});
+                } else {
+                    setAlertType({type: "error", open: true}); 
+                }
+                return text;
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    
+            // Reset the Input Fields
+            reset(e);
+        }
     }
 
 
     // Reset the field values
     const reset = (e) => {
         e.preventDefault();
-        setBookingData({
-            wid: "",
-            uid: "",
-            date: "",
-        });
+        dispatch(updateBookingDataCity({field: "date", value: ""}));
+        dispatch(updateBookingDataWorkshop({field: "date", value: ""}));
     }
 
 
     // Handle the logout button
     const handleLogout = (e) => {
         e.preventDefault();
+        dispatch(updateBookingDataCity({field: "date", value: ""}));
+        dispatch(updateBookingDataCity({field: "cid", value: ""}));
+        dispatch(updateBookingDataWorkshop({field: "date", value: ""}));
+        dispatch(updateBookingDataWorkshop({field: "wid", value: ""}));
         dispatch(updateLoggedIn(0));
     }
 
@@ -127,7 +165,7 @@ const Book = () => {
                 <input 
                     type="date" 
                     name="date" 
-                    value={bookingData.date}
+                    value={citySelected ? bookingDataCity.date : bookingDataWorkshop.date}
                     onChange={(e) => handleChange(e)}
                 />
             </div>
