@@ -20,7 +20,6 @@ const ListBox = (props) => {
         useEffect(() => {
             // console.log(selected);
             // console.log(selected.id);
-            console.log(props.reload);
             if(selected != 0) {
                 dispatch(updateWorkshopURL(selected.id));
                 dispatch(updateBookingDataCity({field: "cid", value: selected.id}));
@@ -64,7 +63,7 @@ const ListBox = (props) => {
 
     return (
 
-        <div key={props.reload} className="mt-3">
+        <div className="mt-3">
             <Listbox value={selected} onChange={setSelected}>
             <div className="relative mt-4 py-2 w-64">
                 <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">

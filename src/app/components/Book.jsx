@@ -31,8 +31,8 @@ const Book = () => {
 
     // const checkReload = useSelector((state) => state.reload.value);
 
-    console.log(bookingDataCity);
-    console.log(bookingDataWorkshop);
+    // console.log(bookingDataCity);
+    // console.log(bookingDataWorkshop);
     // console.log(`Reload: ${checkReload}`);
     
 
