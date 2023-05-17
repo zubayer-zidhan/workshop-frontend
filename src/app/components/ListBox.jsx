@@ -1,13 +1,14 @@
 import { Fragment, useState , useEffect } from 'react'
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateWorkshopURL } from '../../slices/getWorkshopsSlice';
 
 
 const ListBox = (props) => {
     const [menuItems, setMenuItems] = useState([]);
     const [selected, setSelected] = useState(0);
+    const citySelected = useSelector((state) => state.isCitySelected.value);
 
     const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ const ListBox = (props) => {
             if(selected != 0) {
                 dispatch(updateWorkshopURL(selected.id));
             }
-        }, [selected])
+        }, [selected, citySelected])
     }
 
     // useEffect for fetching data at start

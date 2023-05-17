@@ -4,6 +4,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useDispatch } from 'react-redux';
 import { updateCitySelected } from '../../slices/isCitySelectedSlice';
+import { updateWorkshopURL } from '../../slices/getWorkshopsSlice';
 
 
 
@@ -19,7 +20,7 @@ export default function RadioButton() {
             setAlignment(newAlignment);
 
             if(newAlignment === "city") {
-                dispatch(updateCitySelected(1));      
+                dispatch(updateCitySelected(1));
             } else {
                 dispatch(updateCitySelected(0));
             }
