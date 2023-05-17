@@ -81,59 +81,65 @@ const Book = () => {
     const bookSlot = async (e) => {
         e.preventDefault();
 
-        if(citySelected) {
-            await fetch(BOOK_USING_CITY_URL, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(bookingDataCity),
-            }).then(response => response.text())
-            .then(text => {
-                // console.log(text);
-                setBookReply(text);
-                if(text === SUCCESS) {
-                    setAlertType({type: "success", open: true});
-                } else if(text === NO_SLOTS_CITY) {
-                    setAlertType({type: "info", open: true});
-                } else {
-                    setAlertType({type: "error", open: true}); 
-                }
-                return text;
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    
-            // Reset the Input Fields
-            reset(e);
+        if(bookingDataCity.date === "" &&  bookingDataWorkshop.date === "") {
+            setBookReply("Invalid Date")
+            setAlertType({type: "error", open: true}); 
         } else {
-            await fetch(BOOK_USING_WORKSHOP_URL, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(bookingDataWorkshop),
-            }).then(response => response.text())
-            .then(text => {
-                // console.log(text);
-                setBookReply(text);
-                if(text === SUCCESS) {
-                    setAlertType({type: "success", open: true});
-                } else if(text === NO_SLOTS) {
-                    setAlertType({type: "info", open: true});
-                } else {
-                    setAlertType({type: "error", open: true}); 
-                }
-                return text;
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    
-            // Reset the Input Fields
-            reset(e);
+            if(citySelected) {
+                await fetch(BOOK_USING_CITY_URL, {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bookingDataCity),
+                }).then(response => response.text())
+                .then(text => {
+                    // console.log(text);
+                    setBookReply(text);
+                    if(text === SUCCESS) {
+                        setAlertType({type: "success", open: true});
+                    } else if(text === NO_SLOTS_CITY) {
+                        setAlertType({type: "info", open: true});
+                    } else {
+                        setAlertType({type: "error", open: true}); 
+                    }
+                    return text;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        
+                // Reset the Input Fields
+                reset(e);
+            } else {
+                await fetch(BOOK_USING_WORKSHOP_URL, {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bookingDataWorkshop),
+                }).then(response => response.text())
+                .then(text => {
+                    // console.log(text);
+                    setBookReply(text);
+                    if(text === SUCCESS) {
+                        setAlertType({type: "success", open: true});
+                    } else if(text === NO_SLOTS) {
+                        setAlertType({type: "info", open: true});
+                    } else {
+                        setAlertType({type: "error", open: true}); 
+                    }
+                    return text;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        
+                // Reset the Input Fields
+                reset(e);
+            }
         }
+
     }
 
 
