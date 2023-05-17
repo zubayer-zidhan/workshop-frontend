@@ -16,8 +16,12 @@ const ListBox = (props) => {
 
 
 
-    if(props.name === "cities") {
-        useEffect(() => {
+    
+
+    // useEffect for fetching data at start
+    useEffect(() => {
+
+        if(props.name === "cities") {
             // console.log(selected);
             // console.log(selected.id);
             if(selected != 0) {
@@ -25,22 +29,16 @@ const ListBox = (props) => {
                 dispatch(updateBookingDataCity({field: "cid", value: selected.id}));
 
             }
-        }, [selected, citySelected])
-    }
-
-    if(props.name === "workshops") {
-        useEffect(() => {
+        }
+    
+        if(props.name === "workshops") {
             // console.log(`Workshop ${selected}`);
             // console.log(`WorkshopID ${selected.id}`);
             if(selected != 0) {
                 dispatch(updateBookingDataWorkshop({field: "wid", value: selected.id}));
 
             }
-        }, [selected, citySelected])
-    }
-
-    // useEffect for fetching data at start
-    useEffect(() => {
+        }
         // Fetch data from API endpoint
         fetch(props.url, {
             method: "get",
@@ -56,7 +54,7 @@ const ListBox = (props) => {
         
 
 
-    }, [props.url]);
+    }, [props.url, selected, citySelected, dispatch, props.name]);
 
 
     

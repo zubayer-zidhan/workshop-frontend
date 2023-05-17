@@ -29,7 +29,7 @@ const StyledSnackbar = styled((props) => <Snackbar {...props} />)(
 
 
 
-const login = () => {
+const Login = () => {
     // Dispatcher function
     const dispatch = useDispatch();
 
@@ -173,4 +173,4 @@ const login = () => {
     )
 }
 
-export default login;
+export default Login;

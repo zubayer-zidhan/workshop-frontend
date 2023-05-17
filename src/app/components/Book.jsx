@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateLoggedIn } from "../../slices/isLoggedInSlice";
 import { updateBookingDataCity } from "@/slices/bookingDataCitySlice";
 import { updateBookingDataWorkshop } from "@/slices/bookingDataWorkshopSlice";
+import { updateCitySelected } from "../../slices/isCitySelectedSlice";
 
 
 
@@ -22,8 +23,8 @@ const Book = () => {
     // Constants
     const SUCCESS = "SUCCESS";
     const NO_SLOTS = "No Slots Available at the required workshop on the given date";
+    const NO_SLOTS_CITY = "No Slots Available at the required city on the given date";
 
-    const userId = useSelector((state) => state.userId.value);
 
     const citySelected = useSelector((state) => state.isCitySelected.value);
     const bookingDataCity = useSelector((state) => state.bookingDataCity.data);
@@ -93,7 +94,7 @@ const Book = () => {
                 setBookReply(text);
                 if(text === SUCCESS) {
                     setAlertType({type: "success", open: true});
-                } else if(text === NO_SLOTS) {
+                } else if(text === NO_SLOTS_CITY) {
                     setAlertType({type: "info", open: true});
                 } else {
                     setAlertType({type: "error", open: true}); 
@@ -151,6 +152,7 @@ const Book = () => {
         dispatch(updateBookingDataCity({field: "cid", value: ""}));
         dispatch(updateBookingDataWorkshop({field: "date", value: ""}));
         dispatch(updateBookingDataWorkshop({field: "wid", value: ""}));
+        dispatch(updateCitySelected(1));
         dispatch(updateLoggedIn(0));
     }
 
@@ -171,12 +173,6 @@ const Book = () => {
                     onClick={bookSlot}
                     className="bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded-md text-lg mx-2">
                     Submit
-                </button>
-                <button
-                    onClick={reset}
-                    className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded-md text-lg mr-2"
-                >
-                    Reset
                 </button>
                 <button
                     onClick={handleLogout}

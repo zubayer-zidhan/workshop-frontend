@@ -17,10 +17,6 @@ const FirstPage = () => {
                 {
                     isLogged ? <SecondPage /> : <Login />
                 }
-                {/* <Book />
-                <ListBoxes />
-                <Radiobutton /> */}
-                {/* <Login /> */}
 
             </main>
         </>
