@@ -12,6 +12,8 @@ import { Snackbar, Alert} from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { updateUserId } from '../../slices/userIdSlice';
 import { updateLoggedIn } from '../../slices/isLoggedInSlice';
+import { updateBookingDataCity } from '../../slices/bookingDataCitySlice';
+import { updateBookingDataWorkshop } from '../../slices/bookingDataWorkshopSlice';
 
 
 // Styled Snack for alert messages
@@ -80,7 +82,7 @@ const login = () => {
             body: JSON.stringify(userData),
         }).then(response => response.text())
         .then(text => {
-            console.log(text);
+            // console.log(text);
             
             // If user id is returned(user exists)
             if(text === "-404") {
@@ -90,6 +92,8 @@ const login = () => {
                 setUserReply("Logged in successfully")
                 setAlertType({type: "success", open: true});
                 dispatch(updateUserId(text));
+                dispatch(updateBookingDataCity({ field: "uid", value: parseInt(text) }));
+                dispatch(updateBookingDataWorkshop({ field: "uid", value: parseInt(text) }));
                 dispatch(updateLoggedIn(1));
             }
         })
@@ -109,7 +113,7 @@ const login = () => {
 
     return (
     <div>
-        <form onSubmit={checkUserData}>
+        <form onSubmit={checkUserData} method='post'>
             <Box display={'flex'} 
                 flexDirection={'column'} 
                 maxWidth={500} 

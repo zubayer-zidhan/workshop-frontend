@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 const ListBoxes = () => {
     const getWorkshopsUrl = useSelector((state) => state.getWorkshops.value);
     const citySelected = useSelector((state) => state.isCitySelected.value);
+    const reload = useSelector((state) => state.reload.value);
 
 
     return (
@@ -13,9 +14,9 @@ const ListBoxes = () => {
 
             {
                 citySelected ? 
-                    <ListBox url="http://localhost:8080/getCities" placeholder="Select City" name="cities" /> 
+                    <ListBox url="http://localhost:8080/getCities" placeholder="Select City" name="cities" reload={reload} /> 
                 :   <>
-                        <ListBox url="http://localhost:8080/getCities" placeholder="Select City" name="cities" />
+                        <ListBox url="http://localhost:8080/getCities" placeholder="Select City" name="cities" reload={reload} />
                         <ListBox url={getWorkshopsUrl} placeholder="Select Workshop" name="workshops" />
                     </> 
             }

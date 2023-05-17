@@ -2,18 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     data: {
-        cid: "",
+        wid: "",
         uid: "",
         date: "",
     }
 }
 
 
-export const bookingDataCitySlice = createSlice({
-    name: "bookingDataCity",
+export const bookingDataWorkshopSlice = createSlice({
+    name: "bookingDataWorkshop",
     initialState,
     reducers: {
-        updateBookingDataCity: (state, action) => {
+        updateBookingDataWorkshop: (state, action) => {
             const { field, value } = action.payload;
             state.data[field] = value; 
         }
@@ -22,6 +22,6 @@ export const bookingDataCitySlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { updateBookingDataCity } = bookingDataCitySlice.actions;
+export const { updateBookingDataWorkshop } = bookingDataWorkshopSlice.actions;
 
-export default bookingDataCitySlice.reducer;
+export default bookingDataWorkshopSlice.reducer;
