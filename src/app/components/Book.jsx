@@ -178,13 +178,13 @@ const Book = () => {
             <div className="mt-5 mx-1">
                 <Button
                     onClick={bookSlot}
-                    className="bg-emerald-800 hover:bg-teal-900 text-white px-3 py-1 rounded-md text-base mx-2 decoration-0">
+                    className="bg-emerald-800 hover:bg-teal-900 text-white px-5 py-2 rounded-md text-base mx-2 decoration-0 z-0">
                     Submit
                 </Button>
                 <Button 
                     endIcon = {<Logout /> }
                     onClick={handleLogout}
-                    className="bg-emerald-800 hover:bg-teal-900 text-white px-3 py-1 rounded-md text-base decoration-0"
+                    className="bg-emerald-800 hover:bg-teal-900 text-white px-5 py-2 rounded-md text-base decoration-0 z-0"
                 >
                     Logout
                 </Button>
