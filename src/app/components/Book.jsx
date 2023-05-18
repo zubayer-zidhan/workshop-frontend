@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Snackbar, Alert, Button} from '@mui/material';
+import { Snackbar, Alert, Button, Stack} from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { Logout } from '@mui/icons-material';
+import { ThemeProvider,createTheme } from '@mui/material/styles';
 import { useSelector, useDispatch } from "react-redux";
 import { updateLoggedIn } from "../../slices/isLoggedInSlice";
 import { updateBookingDataCity } from "@/slices/bookingDataCitySlice";
@@ -163,6 +164,17 @@ const Book = () => {
         dispatch(updateLoggedIn(0));
     }
 
+     //To change the properties of button
+     const theme = createTheme({
+        palette: {
+          primary: {
+            main: '#098978',
+            contrastText : "#fff",        
+          }, 
+          
+        },
+      });
+
 
     return (
         <div>
@@ -175,19 +187,25 @@ const Book = () => {
                     onChange={(e) => handleChange(e)}
                 />
             </div>
-            <div className="mt-5 mx-1">
-                <Button
-                    onClick={bookSlot}
-                    className="bg-emerald-800 hover:bg-teal-900 text-white px-3 py-1 rounded-md text-base mx-2 decoration-0">
-                    Submit
-                </Button>
-                <Button 
-                    endIcon = {<Logout /> }
-                    onClick={handleLogout}
-                    className="bg-emerald-800 hover:bg-teal-900 text-white px-3 py-1 rounded-md text-base decoration-0"
-                >
-                    Logout
-                </Button>
+            <div className=" flex justify-center mt-5 mx-1">
+                <ThemeProvider theme={theme}>
+                    <Button
+                            onClick={bookSlot}
+                            sx={{marginTop : 3,background:'primary.main',color: 'black',marginRight : 2,"&:hover" : {color:'white'} }} 
+                            variant='contained'
+                    >
+                        Submit
+                    </Button>
+                    <Button 
+                        endIcon = {<Logout /> }
+                        onClick={handleLogout}
+                        sx={{marginTop : 3,background:'primary.main',color: 'black',"&:hover" : {color:'white'}}} 
+                        variant='contained'
+                    >
+                        Logout
+                    </Button>
+                </ThemeProvider>
+                    
             </div>
             <StyledSnackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
