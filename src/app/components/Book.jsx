@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Snackbar, Alert, Button, Stack} from '@mui/material';
+import { Snackbar, Alert, Button, Stack, Box} from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { Logout } from '@mui/icons-material';
 import { ThemeProvider,createTheme } from '@mui/material/styles';
@@ -178,9 +178,22 @@ const Book = () => {
 
     return (
         <div>
+            <Box
+                display={'flex'} 
+                flexDirection={'column'} 
+                maxWidth={500} 
+                alignItems={'center'} 
+                justifyContent={'center'} 
+                margin={'auto'}
+                marginTop={0} 
+                padding={3}
+                
+                
+            
+            >
             <div className="mt-5 data-te-datepicker-init data-te-input-wrapper-init">
                 <input 
-                    className="peer block min-h-[auto] w-96 rounded border-1 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-50 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-400 dark:placeholder:text-neutral-300 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] w-full rounded border-1 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-50 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-400 dark:placeholder:text-neutral-300 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     type="date" 
                     name="date" 
                     value={citySelected ? bookingDataCity.date : bookingDataWorkshop.date}
@@ -207,6 +220,7 @@ const Book = () => {
                 </ThemeProvider>
                     
             </div>
+            </Box>
             <StyledSnackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 open={alertType.open}
@@ -218,6 +232,7 @@ const Book = () => {
                 </Alert>
             </StyledSnackbar>
         </div>
+
     );
 };
 
