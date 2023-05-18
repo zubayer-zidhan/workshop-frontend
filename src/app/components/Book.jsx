@@ -185,7 +185,7 @@ const Book = () => {
                 alignItems={'center'} 
                 justifyContent={'center'} 
                 margin={'auto'}
-                marginTop={0} 
+                marginTop={-2} 
                 padding={3}
                 
                 
