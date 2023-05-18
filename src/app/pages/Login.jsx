@@ -37,8 +37,11 @@ const Login = () => {
     const [userData, setUserData] = useState({
         name : "",
         email : "",
+        phone : "",
     });
-
+    //Check if login or signup is active
+    const [isSignup, setisSignup] = useState(false);
+    // console.log(isSignup);
 
     // Set User Reply Message
     const [userReply, setUserReply] = useState("");
@@ -61,6 +64,7 @@ const Login = () => {
 
     // Base findUserId URL
     const BASE_USER_URL = "http://localhost:8080/findUserId";
+    const BASE_ADD_USER_URL = `http://localhost:8080/addUser?name=${userData.name}&phone=${userData.phone}&mail=${userData.email}`;
 
 
 
@@ -72,7 +76,7 @@ const Login = () => {
 
     const checkUserData = async (e) =>{
         e.preventDefault();
-        // console.log(userData);
+        console.log(userData.name);
 
         await fetch(BASE_USER_URL, {
             method: "post",
@@ -89,7 +93,7 @@ const Login = () => {
                 setUserReply("Invalid name or email.")
                 setAlertType({type: "error", open: true});
             } else {
-                setUserReply("Logged in successfully")
+                setUserReply("Logged in successfully");
                 setAlertType({type: "success", open: true});
                 dispatch(updateUserId(text));
                 dispatch(updateBookingDataCity({ field: "uid", value: parseInt(text) }));
@@ -97,6 +101,38 @@ const Login = () => {
                 dispatch(updateLoggedIn(1));
             }
         })
+    }
+
+    //Function to add new User
+    const addUserData = async (e) => {
+        await fetch(BASE_ADD_USER_URL, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+        }).then(response => response.text())
+        .then (text => {
+            // console.log(text)
+            if(text === "-404") {
+                setUserReply("Invalid name or email.")
+                setAlertType({type: "error", open: true});
+            }else{
+                setUserReply("Account created successfully")
+                setAlertType({type: "success", open: true});
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
+    }
+
+    //Reset the text fields
+    const resetState = () =>{
+        setisSignup(!isSignup);
+        setUserData({name : "", email : "", phone : "",}); 
+        
     }
 
     
@@ -113,7 +149,7 @@ const Login = () => {
 
     return (
     <div>
-        <form onSubmit={checkUserData} method='post'>
+        <form onSubmit={isSignup ? addUserData : checkUserData} method='post'>
             <Box display={'flex'} 
                 flexDirection={'column'} 
                 maxWidth={500} 
@@ -126,14 +162,16 @@ const Login = () => {
                 boxShadow={'5px 5px 8px #ccc'}
 
             > 
-                <Typography variant='h2' padding={3} textAlign={'center'} >Login</Typography> 
+                <Typography variant='h2' padding={3} textAlign={'center'} >
+                    {isSignup ? "Signup" : "Login"}
+                </Typography> 
                 <TextField 
                     id="outlined-username" 
                     label="Name" 
                     type="text" 
                     margin='normal' 
                     name='name' 
-                    value={userData.username}
+                    value={userData.name}
                     onChange={(e)=>handleChange(e)}
                 />
                 <TextField 
@@ -145,6 +183,15 @@ const Login = () => {
                     value={userData.email}
                     onChange={(e)=>handleChange(e)}
                 />
+                {isSignup && <TextField 
+                    id="outlined-phone" 
+                    label="Phone Number" 
+                    type="text" 
+                    margin='normal'
+                    name='phone'
+                    value={userData.phone}
+                    onChange={(e)=>handleChange(e)}
+                />}
                 <ThemeProvider theme={theme}>
                     <Button 
                      type='submit' 
@@ -152,7 +199,13 @@ const Login = () => {
                      variant='contained'
                      endIcon = {<LoginOutlined />}
                     >
-                          Login
+                          {isSignup ? "Signup" :  "Login"}
+                    </Button>
+                    <Button 
+                     onClick={resetState}
+                     sx={{marginTop : 3,background:'primary.main',color: 'black'}} 
+                    >
+                          {isSignup ? "Already User->Login" : "New User! Signup"}
                     </Button>
                 </ThemeProvider>   
             </Box >
