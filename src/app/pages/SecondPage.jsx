@@ -7,7 +7,7 @@ const SecondPage = () => {
     return (
         <div className='flex items-center justify-center text-center mt-12'>
             <div>
-                <h1 className="text-8xl">Book</h1>
+                <h1 className="text-8xl font-semibold">Book</h1>
                 <RadioButton />
                 <ListBoxes />
                 <Book />

@@ -4,9 +4,9 @@ import React from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Typography,Button } from '@mui/material';
+import { Typography,Button, Stack } from '@mui/material';
 import { ThemeProvider,createTheme } from '@mui/material/styles';
-import { LoginOutlined } from '@mui/icons-material';
+import { LoginOutlined,HowToRegOutlined } from '@mui/icons-material';
 import { useDispatch } from "react-redux";
 import { Snackbar, Alert} from '@mui/material';
 import { styled } from "@mui/material/styles";
@@ -14,6 +14,7 @@ import { updateUserId } from '../../slices/userIdSlice';
 import { updateLoggedIn } from '../../slices/isLoggedInSlice';
 import { updateBookingDataCity } from '../../slices/bookingDataCitySlice';
 import { updateBookingDataWorkshop } from '../../slices/bookingDataWorkshopSlice';
+import { blueGrey } from '@mui/material/colors';
 
 
 // Styled Snack for alert messages
@@ -105,6 +106,11 @@ const Login = () => {
 
     //Function to add new User
     const addUserData = async (e) => {
+        if (userData.name ==="" || userData.phone ==="" || userData.email==="") {
+            setUserReply("Invalid name or email.");
+            setAlertType({type: "error", open: true});
+
+        }else{
         await fetch(BASE_ADD_USER_URL, {
             method: "post",
             headers: {
@@ -125,6 +131,7 @@ const Login = () => {
         .catch(error => {
             console.error(error);
         })
+     }
 
     }
 
@@ -162,7 +169,13 @@ const Login = () => {
                 boxShadow={'5px 5px 8px #ccc'}
 
             > 
-                <Typography variant='h2' padding={3} textAlign={'center'} >
+                <Typography 
+                    variant='h2' 
+                    padding={3} 
+                    textAlign={'center'} 
+                    fontWeight={700}
+                   
+                >
                     {isSignup ? "Signup" : "Login"}
                 </Typography> 
                 <TextField 
@@ -192,22 +205,25 @@ const Login = () => {
                     value={userData.phone}
                     onChange={(e)=>handleChange(e)}
                 />}
+
                 <ThemeProvider theme={theme}>
                     <Button 
                      type='submit' 
                      sx={{marginTop : 3,background:'primary.main',color: 'black'}} 
                      variant='contained'
-                     endIcon = {<LoginOutlined />}
+                     endIcon = {isSignup ? <HowToRegOutlined /> :<LoginOutlined />}
                     >
                           {isSignup ? "Signup" :  "Login"}
                     </Button>
-                    <Button 
-                     onClick={resetState}
-                     sx={{marginTop : 3,background:'primary.main',color: 'black'}} 
-                    >
-                          {isSignup ? "Already User->Login" : "New User! Signup"}
-                    </Button>
                 </ThemeProvider>   
+                <Button  
+                     endIcon = {isSignup ? <LoginOutlined /> : <HowToRegOutlined />}
+                     onClick={resetState}
+                     sx={{marginTop : 3,color: 'primary',fontSize: '15px', textTransform:'none', "&:hover":{textDecoration:'underline'}}} 
+                    >
+                          {isSignup ? "Existing User?Login" : "No Account?Signup"}
+                </Button>
+                
             </Box >
         </form>
         <StyledSnackbar

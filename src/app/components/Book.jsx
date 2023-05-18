@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Snackbar, Alert} from '@mui/material';
+import { Snackbar, Alert, Button} from '@mui/material';
 import { styled } from "@mui/material/styles";
+import { Logout } from '@mui/icons-material';
 import { useSelector, useDispatch } from "react-redux";
 import { updateLoggedIn } from "../../slices/isLoggedInSlice";
 import { updateBookingDataCity } from "@/slices/bookingDataCitySlice";
@@ -175,17 +176,18 @@ const Book = () => {
                 />
             </div>
             <div className="mt-5 mx-1">
-                <button 
+                <Button
                     onClick={bookSlot}
-                    className="bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded-md text-lg mx-2">
+                    className="bg-emerald-800 hover:bg-teal-900 text-white px-3 py-1 rounded-md text-base mx-2 decoration-0">
                     Submit
-                </button>
-                <button
+                </Button>
+                <Button 
+                    endIcon = {<Logout /> }
                     onClick={handleLogout}
-                    className="bg-teal-500 hover:bg-teal-700 text-white px-3 py-1 rounded-md text-lg"
+                    className="bg-emerald-800 hover:bg-teal-900 text-white px-3 py-1 rounded-md text-base decoration-0"
                 >
                     Logout
-                </button>
+                </Button>
             </div>
             <StyledSnackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
