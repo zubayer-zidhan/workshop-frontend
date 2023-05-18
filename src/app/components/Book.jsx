@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Snackbar, Alert} from '@mui/material';
+import { Snackbar, Alert, Button, Stack, Box} from '@mui/material';
 import { styled } from "@mui/material/styles";
+import { Logout } from '@mui/icons-material';
+import { ThemeProvider,createTheme } from '@mui/material/styles';
 import { useSelector, useDispatch } from "react-redux";
 import { updateLoggedIn } from "../../slices/isLoggedInSlice";
 import { updateBookingDataCity } from "@/slices/bookingDataCitySlice";
@@ -162,31 +164,63 @@ const Book = () => {
         dispatch(updateLoggedIn(0));
     }
 
+     //To change the properties of button
+     const theme = createTheme({
+        palette: {
+          primary: {
+            main: '#098978',
+            contrastText : "#fff",        
+          }, 
+          
+        },
+      });
+
 
     return (
         <div>
-            <div className="mt-5">
-                <label className="mr-5 ml-3">Date</label>
+            <Box
+                display={'flex'} 
+                flexDirection={'column'} 
+                maxWidth={500} 
+                alignItems={'center'} 
+                justifyContent={'center'} 
+                margin={'auto'}
+                marginTop={-2} 
+                padding={3}
+                
+                
+            
+            >
+            <div className="mt-5 data-te-datepicker-init data-te-input-wrapper-init">
                 <input 
+                    className="peer block min-h-[auto] w-full rounded border-1 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-50 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-400 dark:placeholder:text-neutral-300 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     type="date" 
                     name="date" 
                     value={citySelected ? bookingDataCity.date : bookingDataWorkshop.date}
                     onChange={(e) => handleChange(e)}
                 />
             </div>
-            <div className="mt-5 mx-1">
-                <button 
-                    onClick={bookSlot}
-                    className="bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded-md text-lg mx-2">
-                    Submit
-                </button>
-                <button
-                    onClick={handleLogout}
-                    className="bg-teal-500 hover:bg-teal-700 text-white px-3 py-1 rounded-md text-lg"
-                >
-                    Logout
-                </button>
+            <div className=" flex justify-center mt-5 mx-1">
+                <ThemeProvider theme={theme}>
+                    <Button
+                            onClick={bookSlot}
+                            sx={{marginTop : 3,background:'primary.main',color: 'black',marginRight : 2,"&:hover" : {color:'white'} }} 
+                            variant='contained'
+                    >
+                        Submit
+                    </Button>
+                    <Button 
+                        endIcon = {<Logout /> }
+                        onClick={handleLogout}
+                        sx={{marginTop : 3,background:'primary.main',color: 'black',"&:hover" : {color:'white'}}} 
+                        variant='contained'
+                    >
+                        Logout
+                    </Button>
+                </ThemeProvider>
+                    
             </div>
+            </Box>
             <StyledSnackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 open={alertType.open}
@@ -198,6 +232,7 @@ const Book = () => {
                 </Alert>
             </StyledSnackbar>
         </div>
+
     );
 };
 
