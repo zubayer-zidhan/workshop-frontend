@@ -14,7 +14,7 @@ import { updateUserId } from '../../slices/userIdSlice';
 import { updateLoggedIn } from '../../slices/isLoggedInSlice';
 import { updateBookingDataCity } from '../../slices/bookingDataCitySlice';
 import { updateBookingDataWorkshop } from '../../slices/bookingDataWorkshopSlice';
-import { blueGrey } from '@mui/material/colors';
+
 
 
 // Styled Snack for alert messages
@@ -109,7 +109,7 @@ const Login = () => {
         e.preventDefault();
         
         if (userData.name ==="" || userData.phone ==="" || userData.email==="") {
-            setUserReply("Invalid name or email.");
+            setUserReply("Invalid name or email or phone number.");
             setAlertType({type: "error", open: true});
 
         }else{
@@ -169,7 +169,7 @@ const Login = () => {
 
     return (
     <div>
-        <form onSubmit={isSignup ? addUserData : checkUserData} method='post'>
+        <form onSubmit={isSignup ? addUser : checkUserData} method='post'>
             <Box display={'flex'} 
                 flexDirection={'column'} 
                 maxWidth={500} 
