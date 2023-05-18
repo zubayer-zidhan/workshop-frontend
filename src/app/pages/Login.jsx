@@ -40,6 +40,7 @@ const Login = () => {
         email : "",
         phone : "",
     });
+
     //Check if login or signup is active
     const [isSignup, setisSignup] = useState(false);
     // console.log(isSignup);
@@ -65,7 +66,7 @@ const Login = () => {
 
     // Base findUserId URL
     const BASE_USER_URL = "http://localhost:8080/findUserId";
-    const BASE_ADD_USER_URL = `http://localhost:8080/addUser?name=${userData.name}&phone=${userData.phone}&mail=${userData.email}`;
+    const BASE_ADD_USER_URL = "http://localhost:8080/addUser";
 
 
 
@@ -105,44 +106,46 @@ const Login = () => {
     }
 
     //Function to add new User
-    const addUserData = async (e) => {
+    const addUser = async (e) => {
+        e.preventDefault();
+        
         if (userData.name ==="" || userData.phone ==="" || userData.email==="") {
             setUserReply("Invalid name or email.");
             setAlertType({type: "error", open: true});
 
         }else{
-        await fetch(BASE_ADD_USER_URL, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userData),
-        }).then(response => {
-            if(!response.ok) {
-                return "500";
-            } else {
-                return response.text();
-            }
-        })
-        .then (text => {
-            // console.log(text);
+            await fetch(BASE_ADD_USER_URL, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            }).then(response => {
+                if(!response.ok) {
+                    return "500";
+                } else {
+                    return response.text();
+                }
+            })
+            .then (text => {
+                // console.log(text);
 
-            if(text === "500") {
-                setUserReply("User already exists. Please login.");
-                setAlertType({type: "error", open: true});
-            }else{
-                const resData = JSON.parse(text);
-                // console.log(resData);
-                setUserReply("Account created successfully")
-                setAlertType({type: "success", open: true});
-                dispatch(updateUserId(resData.id));
-                dispatch(updateLoggedIn(1));
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        })
-     }
+                if(text === "500") {
+                    setUserReply("User already exists. Please login.");
+                    setAlertType({type: "error", open: true});
+                }else{
+                    const resData = JSON.parse(text);
+                    // console.log(resData);
+                    setUserReply("Account created successfully")
+                    setAlertType({type: "success", open: true});
+                    dispatch(updateUserId(resData.id));
+                    dispatch(updateLoggedIn(1));
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        }
 
     }
 
@@ -167,7 +170,7 @@ const Login = () => {
 
     return (
     <div>
-        <form onSubmit={isSignup ? addUserData : checkUserData} method='post'>
+        <form onSubmit={isSignup ? addUser : checkUserData} method='post'>
             <Box display={'flex'} 
                 flexDirection={'column'} 
                 maxWidth={500} 
