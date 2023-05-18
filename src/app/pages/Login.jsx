@@ -117,15 +117,26 @@ const Login = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(userData),
-        }).then(response => response.text())
+        }).then(response => {
+            if(!response.ok) {
+                return "500";
+            } else {
+                return response.text();
+            }
+        })
         .then (text => {
-            // console.log(text)
-            if(text === "-404") {
-                setUserReply("Invalid name or email.")
+            // console.log(text);
+
+            if(text === "500") {
+                setUserReply("User already exists. Please login.");
                 setAlertType({type: "error", open: true});
             }else{
+                const resData = JSON.parse(text);
+                // console.log(resData);
                 setUserReply("Account created successfully")
                 setAlertType({type: "success", open: true});
+                dispatch(updateUserId(resData.id));
+                dispatch(updateLoggedIn(1));
             }
         })
         .catch(error => {
